@@ -1,0 +1,62 @@
+API 설계는 다음과 같다.
+
+1. 유저 생성
+유저의 email, password, name 정보를 받아 유저 생성
+유저 생성이므로 URI는 /auth/signup
+생성이므로 HTTP 메서드는 POST
+
+2. 유저 로그인
+유저의 email, password를 전달받아 인증 -> 유저 토큰 발급
+URI는 /auth/login
+HTTP 메서드는 POST
+
+3. 유저 로그아웃
+동일한 이름의 토큰을 발급받으면 덮어씌여지므로 유효기간을 0으로한 토큰을 발급하여 로그아웃
+URI는 /auth/logout
+HTTP 메서드는 POST
+
+4. 유저 정보 수정
+토큰으로 유저 정보 가져옴, RequestBody로 수정할 name를 받아서 유저 정보 수정
+URI는 /users에 HTTP메서드는 PUT
+
+5. 유저 삭제
+토큰으로 유저 정보 가져와서 삭제
+URI는  /users에 HTTP메서드는 DELETE
+
+5. 유저가 메세지 작성
+토큰으로 유저 정보 가져옴
+작성할 때 보내주는 정보는 수신자, title, content를 주도록 한다.
+메세지를 보내는 것이므로 URI는 /messages, 생성이므로 HTTP 메서드는 POST
+
+6. 유저가 자신이 작성한 특정 메모 수정
+토큰으로 유저 정보 가져옴. 수신자들이 메세지를 아직 읽지 않았고, 작성자와 현재 유저가 일치할 경우 제목과 내용 수정
+특정 메세지 수정이므로 URI는 /memos/{messageId}
+수정 이므로 HTTP 메서드는 PUT
+
+7. 유저가 자신이 작성한 특정 메모 삭제
+토큰으로 유저 정보 가져옴. 수신자들이 메세지를 아직 읽지 않았고, 작성자와 현재 유저가 일치할 경우 메세지 삭제
+특정 메세지 삭제이므로 URI는 /memos/{messageId}
+수정 이므로 HTTP 메서드는 DELETE
+
+8. 유저가 자신이 받은 모든 메세지 조회
+토큰으로 유저 정보 받아서 해당 유저가 받은 모든 메세지를 조회
+URI는 /messages, 조회이므로 HTTP 메서드는 GET
+
+9. 유저가 자신이 보낸 모든 메세지 조회
+토큰으로 유저 정보 받아서 해당 유저가 보낸 모든 메세지를 조회
+URI는 /messages/sent, 조회이므로 HTTP 메서드는 GET
+
+10. 유저가 자신이 받거나 보낸 메시지 상세 조회
+토큰으로 유저 정보 받고, URI로 메시지 ID를 받아서 권한을 확인 후 조회
+URI는 /messages/{messageId}
+HTTP메서드는 GET
+
+11. 유저가 자신이 받은 메세지에 대해 회신
+토큰으로 유저 정보 받고, URI로 메시지 ID를 받아서 해당 메세지의 수신자인지 확인 후 회신 작성
+이때 회신 메세지의 수신자는 자동으로 이전 메세지의 송신자이고 title, content를 받아 작성
+URI는 /messages/{messageId}
+HTTP메서드는 POST
+
+
+
+
